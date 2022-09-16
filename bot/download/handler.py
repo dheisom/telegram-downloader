@@ -31,7 +31,7 @@ async def addFile(_, msg: Message):
         parse_mode=ParseMode.MARKDOWN
     )
     downloads.append(Download(
-        id=randint(1e9, 1e10-1),
+        id=randint(int(1e9), int(1e10-1)),
         filename=filename,
         from_message=msg,
         added=time(),

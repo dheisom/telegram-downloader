@@ -1,12 +1,12 @@
-from typing import Coroutine
+from typing import Callable, NoReturn
 
-from pyrogram import Client
+from pyrogram.client import Client
 from pyrogram.types import Message
 
 from . import ADMINS
 
 
-def humanReadable(n: int) -> str:
+def humanReadable(n: int | float) -> str:
     symbol = "B"
     divider = 1
     if n >= 1024**3:
@@ -19,9 +19,8 @@ def humanReadable(n: int) -> str:
     return f"{t:.2f} {symbol}"
 
 
-def checkAdmins(func: Coroutine) -> Coroutine:
+def checkAdmins(func: Callable) -> Callable:
     async def x(app: Client, msg: Message):
-        if str(msg.chat.id) not in ADMINS and f"@{msg.chat.username}" not in ADMINS:
-            return
-        await func(app, msg)
+        if str(msg.chat.id) in ADMINS or f"@{msg.chat.username}" in ADMINS:
+            await func(app, msg)
     return x

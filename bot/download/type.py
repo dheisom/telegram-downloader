@@ -7,7 +7,7 @@ class Download:
     filename: str
     from_message: Message
     added: float
-    progress_message: Message | None = None
+    progress_message: Message
     started: float = 0
     last_update: float = 0
     last_call: float = 0

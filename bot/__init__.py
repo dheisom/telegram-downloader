@@ -1,11 +1,11 @@
 from os import getenv, mkdir
 
 from dotenv import load_dotenv
-from pyrogram import Client
+from pyrogram.client import Client
 
 load_dotenv()
 
-ADMINS = getenv('ADMINS').split()
+ADMINS = getenv('ADMINS', '').split()
 BASE_FOLDER = getenv('DOWNLOAD_FOLDER', '/data')
 DL_FOLDER = BASE_FOLDER
 

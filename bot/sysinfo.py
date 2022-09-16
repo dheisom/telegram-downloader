@@ -10,7 +10,7 @@ class Usage:
     capacity: str
     used: str
     free: str
-    percent: int
+    percent: str
 
 
 def diskUsage(f: str) -> Usage:

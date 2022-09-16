@@ -2,7 +2,7 @@ from textwrap import dedent
 from time import ctime, time, sleep
 from typing import List
 
-from pyrogram.enums import ParseMode
+from pyrogram.enums.parse_mode import ParseMode
 from pyrogram.types import (CallbackQuery, InlineKeyboardButton,
                             InlineKeyboardMarkup)
 
@@ -63,7 +63,7 @@ async def progress(received: int, total: int, download: Download):
             text=f"Download of __{download.filename}__ stopped!",
             parse_mode=ParseMode.MARKDOWN
         )
-        await app.stop_transmission()
+        app.stop_transmission()
         stop.remove(download.id)
         return
     # Only update download progress if the last update is 1 second old

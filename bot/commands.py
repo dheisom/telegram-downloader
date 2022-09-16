@@ -1,7 +1,7 @@
 from os import mkdir
 from textwrap import dedent
 
-from pyrogram.enums import ParseMode
+from pyrogram.enums.parse_mode import ParseMode
 from pyrogram.types import Message
 
 from . import BASE_FOLDER, DL_FOLDER, folder, sysinfo
