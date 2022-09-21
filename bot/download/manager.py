@@ -1,31 +1,25 @@
 from textwrap import dedent
-from time import ctime, time, sleep
-from typing import List
+from threading import Thread
+from time import ctime, sleep, time
 
 from pyrogram.enums.parse_mode import ParseMode
-from pyrogram.types import (CallbackQuery, InlineKeyboardButton,
-                            InlineKeyboardMarkup)
+from pyrogram.types import CallbackQuery, InlineKeyboardButton, InlineKeyboardMarkup
 
-from .. import app, BASE_FOLDER
+from . import info
+from .. import BASE_FOLDER, app
 from ..util import humanReadable
 from .type import Download
-from threading import Thread
-
-downloads: List[Download] = []
-running: int = 0
-# List of downloads to stop
-stop: List[int] = []
 
 
 def run():
     global running
     while True:
-        for download in downloads:
-            if running == 3:
+        for download in info.downloads:
+            if info.running == 3:
                 break
             Thread(target=downloadFile, args=(download,)).start()
-            running += 1
-            downloads.remove(download)
+            info.running += 1
+            info.downloads.remove(download)
         sleep(1)
 
 
@@ -53,18 +47,18 @@ def downloadFile(d: Download):
             """),
             parse_mode=ParseMode.MARKDOWN
         )
-    running -= 1
+    info.running -= 1
 
 
 async def progress(received: int, total: int, download: Download):
     # This function is called every time that 1MB is downloaded
-    if download.id in stop:
+    if download.id in info.stop:
         await download.progress_message.edit(
             text=f"Download of __{download.filename}__ stopped!",
             parse_mode=ParseMode.MARKDOWN
         )
         app.stop_transmission()
-        stop.remove(download.id)
+        info.stop.remove(download.id)
         return
     # Only update download progress if the last update is 1 second old
     # : This avoid flood on networks that is more than 1MB/s speed
@@ -96,5 +90,5 @@ async def progress(received: int, total: int, download: Download):
 
 async def stopDownload(_, callback: CallbackQuery):
     id = int(callback.data.split()[-1])
-    stop.append(id)
+    info.stop.append(id)
     await callback.answer("Stopping...")

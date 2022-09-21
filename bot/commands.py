@@ -5,6 +5,7 @@ from pyrogram.enums.parse_mode import ParseMode
 from pyrogram.types import Message
 
 from . import BASE_FOLDER, DL_FOLDER, folder, sysinfo
+from .download import info
 
 
 async def start(_, msg: Message):
@@ -44,5 +45,10 @@ async def useFolder(_, msg: Message):
 
 
 async def leaveFolder(_, msg: Message):
-    folder.set('.')
+    folder.set(BASE_FOLDER)
     await msg.reply("I'm in the root folder again.")
+
+
+async def infoCmd(_, msg: Message):
+    t = len(info.downloads)
+    await msg.reply(f"Theres {info.running} downloads running and {t} in the list.")

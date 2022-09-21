@@ -6,8 +6,8 @@ from time import time
 from pyrogram.enums.parse_mode import ParseMode
 from pyrogram.types import Message
 
+from . import info
 from .. import folder
-from .manager import downloads
 from .type import Download
 
 
@@ -30,10 +30,5 @@ async def addFile(_, msg: Message):
         quote=True,
         parse_mode=ParseMode.MARKDOWN
     )
-    downloads.append(Download(
-        id=randint(int(1e9), int(1e10-1)),
-        filename=filename,
-        from_message=msg,
-        added=time(),
-        progress_message=waiting
-    ))
+    id = randint(10**9, (10**10)-1)
+    info.downloads.append(Download(id, filename, msg, time(), waiting))

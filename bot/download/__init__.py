@@ -1,1 +1,3 @@
-from . import handler, manager
+from .type import Data
+
+info: Data = Data()

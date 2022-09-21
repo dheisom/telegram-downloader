@@ -1,4 +1,4 @@
-from typing import Callable, NoReturn
+from typing import Callable
 
 from pyrogram.client import Client
 from pyrogram.types import Message
